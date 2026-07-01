@@ -1,0 +1,28 @@
+
+services:
+  scm-backend:
+    build:
+      context: ./backend
+    container_name: scm_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    #environment:
+      # DATABASE_URL: sqlite+aiosqlite:///./app.db
+      # JWT_SECRET: change_me
+
+  scm-frontend:
+    build:
+      context: ./frontend/scm-test
+    container_name: scm_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/scm-test:/app
+      - /app/node_modules
+    depends_on:
+      - scm-backend
+      #environment:
+      # VITE_API_URL: http://localhost:8000
+      # VITE_API_URL: http://backend:8000  # (si quieres usar red interna docker)

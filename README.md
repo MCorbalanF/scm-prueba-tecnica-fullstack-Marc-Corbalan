@@ -18,7 +18,7 @@ Despliege:
 ### Tradeoffs del proyecto:
 - Credenciales HARDCODEDS, deberian ir en una variable de entorno i leerse a traves de alli. Por acelerar el proceso se dejan hardcodeados, pero en produccion esta prohibido hardcodear ningun elemento.
 - Las variables secundarias deberian ir en su propio archivo config y llamarlas desde alli a cualquier parte del codigo, para tener mas transversabilidad (limites i demas variables que puedan usarse en varias partes del codigo)
-
+- he priorizado utilidad i seguridad antes que velocidad y entregarlo rapido, por lo tanto hay muchas cosas que se han quedado en el tintero
 
 ## Ejercicio 1 - Backend: filtros dinamicos seguros:
 - Hay que hacer un diccionario para limitar los tipos de operaciones permitidas y tener los casos bajo control. creando una clase y un diccionario tenemos todos los casos controlados y como debe operar cada caso, de esta manera los tenemos fuertementetipados.
@@ -42,7 +42,7 @@ o
 ```bash
 python app/seed.py
 ```
-# Mover los archivos, clean architecture:
+## Mover los archivos, clean architecture:
 Se ha movido los archivos pertenientes a su carpeta monorepo backend i se ha iniciado el proyecto de vue en vite en su carpeta correspondiente de frontend. de esta manera el codigo es mas limpio i legible a largo plazo, aun se podria abstraer mas pero creo que es sobreingeneria para el proyecto, con esto es mas que suficiente para que se entienda.
 
 ## Ejercicio 2 - Frontend: Frontend: login y consumo del API
@@ -53,3 +53,18 @@ Se ha movido los archivos pertenientes a su carpeta monorepo backend i se ha ini
 - a mejorar: crear un .env par alas variables de entorno como la base de la api o otras. 
 - se ha utilizado lo pedido en el ejercicio aun no sabiendo vue, pero si vite, por requerimientos del anunciado. Sin ayuda de la ia, (para desplegar este frontend mas rapidamente) hubiera decidido por otro stack tecnologico en el front
 
+## Dockerfiles y dockercompose
+
+- se han añadido los dockers para una comprobacion mas rapida, altamente reproducible entre so y otros, dos dockers unidos entre docker compose entre ellos, de esta manera se puede comprobar el trabajo echo mucho mas facil, el costo valor que da es elevado ya que no cuesta mucho levantarlo
+- no se ha utilizado nginx ni ningun servicio de seguridad por que cuesta mas ponerlo i levantarlo que el servicio que dara. Pero se puede poner en cuanto se pueda sin ningun problema en cualquier contenedor
+- .dockerignore permite no copiar archivos innecesarios a la imagen que estamos creando
+- Para inicializar se debe tener Docker Desktop, ir a la raiz del proyecto i lanzar el compando:
+```bash
+docker compose build --no-cache
+```
+seguidamente de:
+
+```bash
+docker compose up
+```
+puedes entrar ahora a docker desktop o al navegador para el despligue en docker, para produccion se deberia crear i proyectar en el puerto 80 el front i proteger mejor el fastapi.
