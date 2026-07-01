@@ -1,13 +1,14 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import Annotated
-
+from app.filters import ItemSearchFilters
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 
 from app.auth import (
     authenticate,
@@ -19,6 +20,9 @@ from app.auth import (
 from app.database import Base, SessionLocal, engine, get_session
 from app.filters import apply_filters
 from app.models import Item
+
+MAX_RESULTS = 1000
+
 
 SEED_ITEMS = [
     Item(sku="A1", status="pending", warehouse_id=1, created_at=datetime(2025, 1, 1)),
@@ -75,11 +79,8 @@ class TokenPair(BaseModel):
 class RefreshRequest(BaseModel):
     refresh_token: str
 
-
 class SearchRequest(BaseModel):
-    # TODO (candidato): diseña aquí el contrato de filtros estructurados.
-    filters: str | None = None
-
+    filters: ItemSearchFilters | None = None
 
 class ItemOut(BaseModel):
     id: int
@@ -119,8 +120,11 @@ async def search_items(
     _user: Annotated[str, Depends(get_current_user)],
 ) -> list[ItemOut]:
     stmt = select(Item)
-    stmt = apply_filters(stmt, payload.filters)
+    stmt = apply_filters(stmt, Item, payload.filters)
+    stmt = stmt.limit(MAX_RESULTS)
+    
     result = await session.execute(stmt)
+    
     return [ItemOut.model_validate(i) for i in result.scalars().all()]
 
 

@@ -1,52 +1,31 @@
-# Repo base — prueba técnica
+# Prueba tecnica full stack SCM Logistics
+## Marc Corbalan
+---
 
-Esqueleto de partida. El enunciado completo está en `prueba-tecnica-seleccion.md`.
+Total horas invertidas:
 
-**Stack backend:** FastAPI + SQLAlchemy 2.0 async + SQLite + JWT.
 
-## Arranque
+### Stack tecnologico escogido:
+Lenguajes: Python y JavaScript
 
-```bash
-uv sync
-uv run uvicorn app.main:app --reload   # http://127.0.0.1:8000/docs
-uv run pytest -v
-```
+Backend:
+- fastapi
+Frontend: 
+-React Vue 3
+Despliege:
+- Docker
 
-Si no usas `uv`, hay un `requirements.txt` equivalente.
+### Tradeoffs del proyecto:
+- Credenciales HARDCODEDS, deberian ir en una variable de entorno i leerse a traves de alli. Por acelerar el proceso se dejan hardcodeados, pero en produccion esta prohibido hardcodear ningun elemento.
+- Las variables secundarias deberian ir en su propio archivo config y llamarlas desde alli a cualquier parte del codigo, para tener mas transversabilidad (limites i demas variables que puedan usarse en varias partes del codigo)
 
-Al arrancar, la aplicación carga unos items de ejemplo si la base de datos está vacía, para que puedas probar la búsqueda sin tener que crear datos a mano.
 
-## Endpoints
-
-| Método | Ruta | Auth | Notas |
-|---|---|---|---|
-| `POST` | `/auth/login` | — | Body: `{"username": "...", "password": "..."}`. Revisa `/docs` para el schema de respuesta. |
-| `POST` | `/items/search` | Bearer | Búsqueda con filtros. Implementación actual **insegura** — es lo que tienes que arreglar. |
-
-Hay más endpoints expuestos en `/docs` (Swagger UI). Échale un vistazo. CORS está abierto a cualquier origen para que el frontend en `localhost` conecte sin fricción.
-
-### Usuarios de prueba
-
-| usuario | password |
-|---|---|
-| `admin` | `admin` |
-| `demo`  | `demo`  |
-
-JWT firmado con HS256. Secret hardcodeado en `app/auth.py` — solo para esta prueba.
-
-## Lo que tienes que tocar (backend)
-
-1. **Contrato JSON de filtros.** El campo `filters: str | None` en `SearchRequest` (`app/main.py`) es placeholder. Sustitúyelo por un contrato razonado y documentado.
-2. **`app/filters.py::apply_filters`** debe ser seguro:
-   - whitelist de columnas resuelta contra el modelo ORM,
-   - whitelist de operadores (`=`, `!=`, `>`, `<`, `like`, `in`, `is null`),
-   - valores **siempre parametrizados**,
-   - error `400` ante filtros inválidos.
-3. Límites razonables (nº de filtros, nº de filas). Documenta los valores.
-4. Si decides añadir tests para esta parte, sustituye el placeholder de `tests/test_search.py` por casos propios que sostengan tu solución.
-
-## Lo que NO debes tocar
-
-`app/auth.py` y el endpoint `/auth/login` están dados como punto de partida — úsalos desde tu frontend tal cual. Si encuentras algo que cambiarías en un sistema real (por ej. el secret hardcodeado), coméntalo en el README de tu entrega y no perdamos tiempo.
-
-El esqueleto es punto de partida, no dogma — toca lo que necesites en lo que sí depende de ti, y justifica decisiones en el README.
+## Ejercicio 1 - Backend: filtros dinamicos seguros:
+- Hay que hacer un diccionario para limitar los tipos de operaciones permitidas y tener los casos bajo control. creando una clase y un diccionario tenemos todos los casos controlados y como debe operar cada caso, de esta manera los tenemos fuertementetipados.
+- Creamos las clases que necesitamos para filtrar de manera dinamica, de esta manera si se tiene que aplicar mas filtros se puede hacer mucho mas sencillo aplicando los modelos a otra clase.
+- Se ha tipado todo para poder ejercer estados mas facilmente, se compone de Field, operator, i value
+- Se ha separado responsabilidades entre las clases y la logica. de esta manera se peud ereutilizar el codigo para otros modelos.
+- Se evita la inyeccion de sql a traves de cadenas de texto, se utiliza el ORM para validas los datos y genera una whitelist. Los operadores tambien estan estrictamente limitados, i cualquier cosa indebida devuelve un 400
+- Limites establecidos con variables constantes.maximo de filtros por peticion i maximos resultados
+- A MEJORAR: otros operadores logicos, mas condiciones, sorting, paginacion... etc, colocar en schemas algunas clases para que se comparta en todo el codigo
+- (he echo un solo commit para esta solucion por que creo que deberia procederse a una solucion inmediata en este tipo de casos como es un agujero de seguridad, y de esa solucion ir mejorando el commit)
