@@ -29,3 +29,17 @@ Despliege:
 - Limites establecidos con variables constantes.maximo de filtros por peticion i maximos resultados
 - A MEJORAR: otros operadores logicos, mas condiciones, sorting, paginacion... etc, colocar en schemas algunas clases para que se comparta en todo el codigo
 - (he echo un solo commit para esta solucion por que creo que deberia procederse a una solucion inmediata en este tipo de casos como es un agujero de seguridad, y de esa solucion ir mejorando el commit)
+
+## Bootstrap de datos:
+- Añadido un comando para poder añadir muchos datos para pruebas del frontend o el docs de fastapi... se ha limitado a cuantos y si ya hay data disponible
+ Ejecturalo:
+```bash
+
+python -m app.seed
+
+```
+o
+```bash
+python app/seed.py
+```
+## Ejercicio 2 - Frontend: Frontend: login y consumo del API

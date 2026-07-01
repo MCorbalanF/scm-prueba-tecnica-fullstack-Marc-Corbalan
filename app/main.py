@@ -21,7 +21,7 @@ from app.database import Base, SessionLocal, engine, get_session
 from app.filters import apply_filters
 from app.models import Item
 
-MAX_RESULTS = 1000
+MAX_RESULTS = 20
 
 
 SEED_ITEMS = [

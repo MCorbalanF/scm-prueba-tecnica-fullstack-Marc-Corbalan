@@ -8,6 +8,7 @@ dependencies = [
     "aiosqlite>=0.22",
     "uvicorn>=0.47",
     "pyjwt>=2.12",
+    "faker>=40.27.0",
 ]
 
 [dependency-groups]
