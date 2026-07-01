@@ -42,4 +42,7 @@ o
 ```bash
 python app/seed.py
 ```
+# Mover los archivos, clean architecture:
+Se ha movido los archivos pertenientes a su carpeta monorepo backend i se ha iniciado el proyecto de vue en vite en su carpeta correspondiente de frontend. de esta manera el codigo es mas limpio i legible a largo plazo, aun se podria abstraer mas pero creo que es sobreingeneria para el proyecto, con esto es mas que suficiente para que se entienda.
+
 ## Ejercicio 2 - Frontend: Frontend: login y consumo del API
