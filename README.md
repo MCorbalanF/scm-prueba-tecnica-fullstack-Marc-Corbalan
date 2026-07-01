@@ -46,3 +46,10 @@ python app/seed.py
 Se ha movido los archivos pertenientes a su carpeta monorepo backend i se ha iniciado el proyecto de vue en vite en su carpeta correspondiente de frontend. de esta manera el codigo es mas limpio i legible a largo plazo, aun se podria abstraer mas pero creo que es sobreingeneria para el proyecto, con esto es mas que suficiente para que se entienda.
 
 ## Ejercicio 2 - Frontend: Frontend: login y consumo del API
+- Se ha modificado el proyecto base y se ha eliminado completamente las dependencias i assets innecesarios
+- Se ha creado toda el frontend con routing teniendo en cuenta las necesidades del anunciado
+- se ha separado la logica por tipos de datos i archivos, vistas, compontes, apicalls, router, etc... de esta manera es mas facil escalar todos los componentes o añadir cualquier componente a futuro
+-se ha utilizado ayuda de ia para mejorar el interfaz y presentacion en general del proyecto, de esta manera tengo mas tiempo para poder dockerizar el proyecto.
+- a mejorar: crear un .env par alas variables de entorno como la base de la api o otras. 
+- se ha utilizado lo pedido en el ejercicio aun no sabiendo vue, pero si vite, por requerimientos del anunciado. Sin ayuda de la ia, (para desplegar este frontend mas rapidamente) hubiera decidido por otro stack tecnologico en el front
+
